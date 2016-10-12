@@ -1,8 +1,19 @@
 var Sequelize = require("sequelize");
-var sequelize = new Sequelize(undefined,undefined,undefined,{
+var env = process.env.NODE_ENV || 'development';
+var sequelize;
+
+// SEQUELIZE FOR HEROKU...
+if(env === 'production'){
+	sequelize = new Sequelize(process.env.DATABASE_URL,{
+		dialect: 'postgres'
+	});
+}else{
+// SEQUELIZE FOR LOCAL...
+	sequelize = new Sequelize(undefined,undefined,undefined,{
 	'dialect': 'sqlite',
 	'storage': __dirname + '/data/dev-todo-api.sqlite'
 });
+}
 
 var db = {};
 
